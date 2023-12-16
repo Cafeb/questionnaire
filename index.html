@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire Café</title>
+    <style>
+        body {
+            background: url('images-fond.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0; /* Élimine la marge par défaut du body */
+            padding: 0; /* Élimine le padding par défaut du body */
+            font-family: Arial, sans-serif; /* Choisir une police de caractères appropriée */
+            color: #ffffff; /* Couleur du texte */
+        }
+
+        #container {
+            background: rgba(0, 0, 0, 0.7); /* Fond semi-transparent pour améliorer la lisibilité du texte */
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #resultat {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h1>Quel café de notre nouvelle gamme vous correspond le mieux ?</h1>
+
+        <form id="coffeeForm" onsubmit="evaluerReponses()">
+            <div>
+                <p>1. Quelle saveur appréciez-vous le plus ?</p><br>
+                <label><input type="radio" name="q1" value="A"> A) Douce et fruitée</label><br>
+                <label><input type="radio" name="q1" value="B"> B) Puissante en bouche avec des notes acides</label><br>
+                <label><input type="radio" name="q1" value="C"> C) Rappelant les fruits à coque</label><br>
+            </div>
+
+            <div>
+                <p>2. Quelle intensité de café préférez-vous ?</p><br>
+                <label><input type="radio" name="q2" value="A"> A) Une intensité à 7, un café équilibré avec une saveur moyennement prononcée.</label><br>
+                <label><input type="radio" name="q2" value="B"> B) Une intensité à 10, le plus fort et le plus robuste.</label><br>
+                <label><input type="radio" name="q2" value="C"> C) Une intensité à 8, un café plus robuste et prononcé.</label><br>
+            </div>
+
+            <div>
+                <p>3. Quelle texture de café préférez-vous ?</p><br>
+                <label><input type="radio" name="q3" value="A"> A) Crémeuse</label><br>
+                <label><input type="radio" name="q3" value="B"> B) Soyeuse</label><br>
+                <label><input type="radio" name="q3" value="C"> C) Granuleuse</label><br>
+            </div>
+
+            <div>
+                <p>4. Quelle est votre préférence de pourcentage d'Arabica dans votre café ? (Le café Arabica est très aromatique, doux, parfumé.)</p><br>
+                <label><input type="radio" name="q4" value="A"> A) 75%</label><br>
+                <label><input type="radio" name="q4" value="B"> B) 40%</label><br>
+                <label><input type="radio" name="q4" value="C"> C) 20%</label><br>
+            </div>
+
+            <div>
+                <p>5. Préférez-vous une présence de notes acides dans votre café ?</p><br>
+                <label><input type="radio" name="q5" value="A"> A) Pas de préférence</label><br>
+                <label><input type="radio" name="q5" value="B"> B) Oui</label><br>
+                <label><input type="radio" name="q5" value="C"> C) Non</label><br>
+            </div>
+
+            <button type="button" onclick="evaluerReponses()">Soumettre</button>
+        </form>
+
+        <div id="resultat"></div>
+    </div>
+
+    <script>
+        function evaluerReponses() {
+            var reponses = [];
+            var questions = document.querySelectorAll('input[type="radio"]:checked');
+
+            questions.forEach(function (question) {
+                reponses.push(question.value);
+            });
+
+            var resultat = evaluerMajorite(reponses);
+
+            var resultatDiv = document.getElementById('resultat');
+            resultatDiv.innerHTML = 'Votre recommandation : ' + resultat;
+        }
+
+        function evaluerMajorite(reponses) {
+            var compteur = {};
+            var majorite = reponses[0];
+
+            for (var i = 0; i < reponses.length; i++) {
+                var reponse = reponses[i];
+                compteur[reponse] = (compteur[reponse] || 0) + 1;
+
+                if (compteur[reponse] > compteur[majorite]) {
+                    majorite = reponse;
+                }
+            }
+
+            switch (majorite) {
+                case 'A':
+                    return 'Malagasy Coffee Delight';
+                case 'B':
+                    return 'Mango Sunny Coffee';
+                case 'C':
+                    return 'Coconut Island Coffee';
+                default:
+                    return 'Impossible de déterminer le résultat.';
+            }
+        }
+    </script>
+
+</body>
+</html>
